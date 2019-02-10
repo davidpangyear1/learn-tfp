@@ -1,0 +1,4 @@
+numpy
+cifar10_web
+tensorflow
+tensorflow_probability
