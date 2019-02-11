@@ -52,6 +52,7 @@ model = tf.keras.Sequential(
 # criticize model
 #
 logits = model(features)
+predictions = tf.nn.softmax(logits)
 neg_log_likelihood = tf.nn.softmax_cross_entropy_with_logits_v2(labels=labels, logits=logits)
 kl = sum(model.get_losses_for(inputs=None))
 loss = neg_log_likelihood + kl
@@ -67,9 +68,12 @@ with tf.Session() as sess:
     batch_size = 10
     for n in range(0, SIZE, batch_size):
         sess.run(train_op, feed_dict={features: train_images[n:n + batch_size], labels: train_labels[n:n + batch_size]})
-        if n % 100 == 0:
-            loss_value = sess.run(
-                [loss], feed_dict={features: train_images[n:n + 1], labels: train_labels[n:n + 1]})
-            print(loss_value)
-            print("n:%d, Loss:%f" % (n, loss_value[0]))
+        if n % 1000 == 0:
+            loss_values, logit_values, prediction_values, label_values = sess.run(
+                [loss, logits, predictions, labels], feed_dict={features: train_images[n:n + 1], labels: train_labels[n:n + 1]})
+            print(loss_values)
+            print(logit_values)
+            print(prediction_values)
+            print(label_values)
+            print("n:%d, Loss:%f" % (n, loss_values[0]))
 logging.debug("done")
