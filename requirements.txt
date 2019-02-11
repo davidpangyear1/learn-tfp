@@ -1,4 +1,5 @@
 numpy
 cifar10_web
 tensorflow
-tensorflow_probability
+# tensorflow-gpu # WARNING: tensorflow-gpu does not support cuda 9.1
+tensorflow-probability
